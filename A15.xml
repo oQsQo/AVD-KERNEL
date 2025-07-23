@@ -10,7 +10,7 @@
     <linkfile src="kleaf/bzlmod/bazel.WORKSPACE.bzlmod" dest="WORKSPACE.bzlmod" />
   </project>
   <project path="build/bazel_common_rules" name="platform/build/bazel_common_rules" groups="ddk" />
-  <project path="common" name="kernel/common" revision="1ebbe5f048f620e6aa981c51b5812cac117b47c1" />
+  <project path="common" name="kernel/common" revision="dd9c02ccfe27152c269eec860e74f845b94647e9" />
   <project path="kernel/tests" name="kernel/tests" revision="main" />
   <project path="kernel/configs" name="kernel/configs"/>
   <project path="common-modules/virtio-media" name="platform/external/virtio-media" />
