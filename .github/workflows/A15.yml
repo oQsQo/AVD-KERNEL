@@ -205,7 +205,6 @@ jobs:
       - name: 编译选项
         run: |
           cd common
-          echo "CONFIG_CFI_PERMISSIVE=y" >> arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU=y" >> arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_MANUAL_HOOK=y" >> arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS=y" >> arch/arm64/configs/gki_defconfig
@@ -227,14 +226,10 @@ jobs:
 
       - name: 编译内核
         run: |
-          cd common
-          printf "echo ${{github.event.inputs.KERNEL_NAME}}" > scripts/setlocalversion
-          export KBUILD_BUILD_TIMESTAMP="${{github.event.inputs.KERNEL_TIME}}"
-          export PATH="/usr/lib/ccache:`realpath ../prebuilts/clang/host/linux-x86/clang-r510928/bin`:$PATH"
-          make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 RUSTC=../../prebuilts/rust/linux-x86/1.73.0b/bin/rustc PAHOLE=../../prebuilts/kernel-build-tools/linux-x86/bin/pahole O=o -j$(nproc) gki_defconfig all
+          tools/bazel run //common-modules/virtual-device:virtual_device_aarch64_dist
 
       - name: 输出文件
         uses: actions/upload-artifact@v4
         with:
           name: Image
-          path: common/o/arch/arm64/boot/Image
+          path: out/virtual_device_aarch64/dist/Image
