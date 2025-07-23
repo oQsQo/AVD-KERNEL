@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       KERNEL_NAME:
-        description: '内核名称'
+        description: "内核名称"
         required: true
         default: '6.6.30-android15-8-gdd9c02ccfe27-ab11987101-4k'
       KERNEL_TIME:
@@ -51,7 +51,6 @@ jobs:
 
           cp ../SukiSU_patch/hooks/syscall_hooks.patch .
           patch -p1 -F 3 < syscall_hooks.patch || true
-
           cp ../susfs4ksu/kernel_patches/fs/* fs/
           cp ../susfs4ksu/kernel_patches/include/linux/* include/linux/
           cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-android15-6.6.patch .
