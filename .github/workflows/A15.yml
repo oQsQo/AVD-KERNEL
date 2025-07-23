@@ -2,14 +2,14 @@ name: '-'
 on:
   workflow_dispatch:
     inputs:
-      KERNEL_TIME:
-        description: "构建日期"
-        required: true
-        default: 'Tue Jun 18 20:50:32 UTC 2024'
       KERNEL_NAME:
         description: "内核名称"
         required: true
         default: '6.6.30-android15-8-gdd9c02ccfe27-ab11987101-4k'
+      KERNEL_TIME:
+        description: "构建日期"
+        required: true
+        default: 'Tue Jun 18 20:50:32 UTC 2024'
 
 jobs:
   build:
@@ -227,8 +227,8 @@ jobs:
 
       - name: 编译内核
         run: |
-          sed -i '1i\KBUILD_BUILD_TIMESTAMP = ${{github.event.inputs.KERNEL_TIME}}' common/Makefile
-          sed -i '1i\KERNELRELEASE = ${{github.event.inputs.KERNEL_NAME}}' common/Makefile
+          sed -i '1i\override KERNELRELEASE = ${{github.event.inputs.KERNEL_NAME}}' common/Makefile
+          sed -i '2i\override KBUILD_BUILD_TIMESTAMP = ${{github.event.inputs.KERNEL_TIME}}' common/Makefile
           export PATH="/usr/lib/ccache:$PATH"
           tools/bazel run //common-modules/virtual-device:virtual_device_aarch64_dist
 
