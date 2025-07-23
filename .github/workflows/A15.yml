@@ -227,8 +227,8 @@ jobs:
 
       - name: 编译内核
         run: |
-          sed -i "1,$cecho ${{github.event.inputs.KERNEL_NAME}}" common/scripts/setlocalversion
-          sed -i "1iexport KBUILD_BUILD_TIMESTAMP := ${{github.event.inputs.KERNEL_TIME}}" common/Makefile
+          sed -i '1,$c\echo ${{github.event.inputs.KERNEL_NAME}}' common/scripts/setlocalversion
+          sed -i '1i\KBUILD_BUILD_TIMESTAMP = ${{github.event.inputs.KERNEL_TIME}}' common/Makefile
           export PATH="/usr/lib/ccache:$PATH"
           tools/bazel run //common-modules/virtual-device:virtual_device_aarch64_dist
 
