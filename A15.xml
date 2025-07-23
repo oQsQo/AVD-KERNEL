@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-  <remote  name="aosp" fetch=".." review="https://android-review.googlesource.com/" />
+  <remote name="aosp" fetch="https://android.googlesource.com/" review="https://android.googlesource.com/" />
   <default revision="main-kernel-build-2024" remote="aosp" sync-j="4" />
-  <superproject name="kernel/superproject" remote="aosp" revision="common-android15-6.6-lts" />
+  <superproject name="kernel/superproject" revision="common-android15-6.6-lts" />
   <project path="build/kernel" name="kernel/build" groups="ddk" >
     <linkfile src="kleaf/bazel.sh" dest="tools/bazel" />
     <linkfile src="kleaf/bazel.WORKSPACE" dest="WORKSPACE" />
