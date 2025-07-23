@@ -227,6 +227,9 @@ jobs:
 
       - name: 编译内核
         run: |
+          printf "echo ${{github.event.inputs.KERNEL_NAME}}" > common/scripts/setlocalversion
+          export KBUILD_BUILD_TIMESTAMP="${{github.event.inputs.KERNEL_TIME}}"
+          export PATH="/usr/lib/ccache:$PATH"
           tools/bazel run //common-modules/virtual-device:virtual_device_aarch64_dist
 
       - name: 输出文件
