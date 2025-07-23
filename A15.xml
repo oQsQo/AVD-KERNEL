@@ -14,7 +14,7 @@
   <project path="kernel/tests" name="kernel/tests" revision="main" />
   <project path="kernel/configs" name="kernel/configs"/>
   <project path="common-modules/virtio-media" name="platform/external/virtio-media" />
-  <project path="common-modules/virtual-device" name="kernel/common-modules/virtual-device" revision="f6331c60a488b65a61ad231ef802350d45a6c2a4" />
+  <project path="common-modules/virtual-device" name="kernel/common-modules/virtual-device" revision="94e52d00fd4e9921efbad3c4b5f424f90b57dfce" />
   <project path="prebuilts/clang/host/linux-x86" name="platform/prebuilts/clang/host/linux-x86" clone-depth="1" groups="ddk" />
   <project path="prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8" name="platform/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.17-4.8" clone-depth="1" groups="ddk" />
   <project path="prebuilts/build-tools" name="platform/prebuilts/build-tools" clone-depth="1" groups="ddk" />
