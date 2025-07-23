@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
   <remote name="aosp" fetch="https://android.googlesource.com/" review="https://android.googlesource.com/" />
-  <default revision="main-kernel-build-2024" remote="aosp" sync-j="4" />
+  <default remote="aosp" sync-j="4" />
   <superproject name="kernel/superproject" revision="common-android15-6.6-lts" />
   <project path="build/kernel" name="kernel/build" groups="ddk" >
     <linkfile src="kleaf/bazel.sh" dest="tools/bazel" />
