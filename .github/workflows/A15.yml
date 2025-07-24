@@ -6,30 +6,21 @@ on:
         description: "内核名称"
         required: true
         default: '6.6.30-android15-8-gdd9c02ccfe27-ab11987101-4k'
+      KERNEL_TIME:
+        description: "构建日期"
+        required: true
+        default: 'Tue Jun 18 20:50:32 UTC 2024'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
-      CCACHE_NOHASHDIR: "true"
-      CCACHE_HARDLINK: "true"
-      CCACHE_DIR: /home/runner/.ccache  
-      CCACHE_MAXSIZE: 8G
     steps:
       - name: 安装环境
         run: |
           sudo apt update
-          sudo apt install -y python3 git curl ccache libelf-dev
+          sudo apt install -y python3 git curl libelf-dev
           sudo curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
           sudo chmod a+x /usr/local/bin/repo
-
-      - name: 加载缓存
-        uses: actions/cache@v4
-        with:
-          path: ${{env.CCACHE_DIR}}
-          key: ccache-${{runner.os}}-${{github.ref}}
-          restore-keys: ccache-${{runner.os}}-     
 
       - name: 下载源码
         run: |
@@ -223,8 +214,8 @@ jobs:
 
       - name: 编译内核
         run: |
-          printf "echo ${{github.event.inputs.KERNEL_NAME}}" > common/scripts/setlocalversion
-          export PATH="/usr/lib/ccache:$PATH"
+          sed -i '1i\override KERNELRELEASE = ${{github.event.inputs.KERNEL_NAME}}' common/Makefile
+          sed -i '2i\override KBUILD_BUILD_TIMESTAMP = ${{github.event.inputs.KERNEL_TIME}}' common/Makefile
           tools/bazel run //common-modules/virtual-device:virtual_device_aarch64_dist
 
       - name: 输出文件
