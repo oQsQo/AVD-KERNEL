@@ -14,26 +14,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
-      CCACHE_NOHASHDIR: "true"
-      CCACHE_HARDLINK: "true"
-      CCACHE_DIR: /home/runner/.ccache  
-      CCACHE_MAXSIZE: 8G
     steps:
       - name: 安装环境
         run: |
           sudo apt update
-          sudo apt install -y python3 git curl ccache libelf-dev
+          sudo apt install -y python3 git curl libelf-dev
           sudo curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo
-          sudo chmod a+x /usr/local/bin/repo
-
-      - name: 加载缓存
-        uses: actions/cache@v4
-        with:
-          path: ${{env.CCACHE_DIR}}
-          key: ccache-${{runner.os}}-${{github.ref}}
-          restore-keys: ccache-${{runner.os}}-     
+          sudo chmod a+x /usr/local/bin/repo  
 
       - name: 下载源码
         run: |
@@ -227,10 +214,12 @@ jobs:
 
       - name: 编译内核
         run: |
-          export PATH="/usr/lib/ccache:$PATH"
           export KERNELRELEASE="${{github.event.inputs.KERNEL_NAME}}"
           export KBUILD_BUILD_TIMESTAMP="${{github.event.inputs.KERNEL_TIME}}"
-          tools/bazel run --spawn_strategy=local --strategy=KernelUapiHeaders=sandboxed //common-modules/virtual-device:virtual_device_aarch64_dist
+          tools/bazel run \
+            --action_env=KERNELRELEASE="${{github.event.inputs.KERNEL_NAME}}" \
+            --action_env=KBUILD_BUILD_TIMESTAMP="${{github.event.inputs.KERNEL_TIME}}" \
+            //common-modules/virtual-device:virtual_device_aarch64_dist
 
       - name: 输出文件
         uses: actions/upload-artifact@v4
