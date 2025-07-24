@@ -228,8 +228,8 @@ jobs:
       - name: 编译内核
         run: |
           export PATH="/usr/lib/ccache:$PATH"
-          export KERNELRELEASE = ${{github.event.inputs.KERNEL_NAME}}
-          export KBUILD_BUILD_TIMESTAMP = ${{github.event.inputs.KERNEL_TIME}}
+          export KERNELRELEASE="${{github.event.inputs.KERNEL_NAME}}"
+          export KBUILD_BUILD_TIMESTAMP="${{github.event.inputs.KERNEL_TIME}}"
           tools/bazel run --spawn_strategy=local //common-modules/virtual-device:virtual_device_aarch64_dist
 
       - name: 输出文件
