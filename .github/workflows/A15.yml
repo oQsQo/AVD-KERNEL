@@ -214,11 +214,9 @@ jobs:
 
       - name: 编译内核
         run: |
-          export KERNELRELEASE="${{github.event.inputs.KERNEL_NAME}}"
-          export KBUILD_BUILD_TIMESTAMP="${{github.event.inputs.KERNEL_TIME}}"
           tools/bazel run \
-            --action_env=KERNELRELEASE="${{github.event.inputs.KERNEL_NAME}}" \
-            --action_env=KBUILD_BUILD_TIMESTAMP="${{github.event.inputs.KERNEL_TIME}}" \
+            --action_env="KERNELRELEASE=${{github.event.inputs.KERNEL_NAME}}" \
+            --action_env="KBUILD_BUILD_TIMESTAMP=${{github.event.inputs.KERNEL_TIME}}" \
             //common-modules/virtual-device:virtual_device_aarch64_dist
 
       - name: 输出文件
